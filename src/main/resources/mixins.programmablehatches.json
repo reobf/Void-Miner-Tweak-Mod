@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "reobf.fix.main.mixin.mixins",
+  "plugin": "reobf.fix.main.mixin.MixinPlugin", 
+  "refmap": "mixins.fix.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [],
+  "server": []
+}

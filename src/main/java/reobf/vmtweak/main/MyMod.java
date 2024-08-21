@@ -2,6 +2,7 @@ package reobf.vmtweak.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -21,7 +23,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import pers.gwyog.gtneioreplugin.plugin.block.ModBlocks;
 import pers.gwyog.gtneioreplugin.plugin.item.ItemDimensionDisplay;
 import pers.gwyog.gtneioreplugin.util.DimensionHelper;
-import reobf.vmtweak.Tags;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +48,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
 
-@Mod(modid = Tags.MODID, version = Tags.VERSION, name = Tags.MODNAME,
+@Mod(modid = "vmtweak", version = "0.0.2", name = "vmtweak",
 acceptableRemoteVersions="*",
 
 
@@ -55,88 +56,45 @@ acceptedMinecraftVersions = "[1.7.10]"
 
 )
 public class MyMod {
-	
-	public static BiMap<Integer, String> dimMapping=HashBiMap.create();
-	public static BiMap<ModDimensionDef, String> dimDefMapping=HashBiMap.create();
-	
-	
-	public static int skip=10; @Mod.EventHandler
+@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		
 		  MinecraftForge.EVENT_BUS.register(this);
 		  FMLCommonHandler.instance().bus().register(this);
-		   }
+		   }	public static List<String> dimName=Arrays.asList(DimensionHelper.DimName);
+			public static List<String> dimNameShort=Arrays.asList(DimensionHelper.DimNameDisplayed);
+			
 	
+public static BiMap<Integer, String> dimMapping=HashBiMap.create();
+public static HashMap<Integer,String> cahce=new HashMap<>();
 	
-	
-	
-	public static List<String> dimName=Arrays.asList(DimensionHelper.DimName);
-	public static List<String> dimNameShort=Arrays.asList(DimensionHelper.DimNameDisplayed);
-	
+
 	@SubscribeEvent
 	public  void a(WorldEvent.Load e){
-		
-		
 		for(int i:DimensionManager.getStaticDimensionIDs()){
 			if(dimMapping.containsKey(i))continue;
 			String name=getNameForID(i);
-			ModDimensionDef def = getDefForName(name);
+			
 			int index;
 			if((index=dimName.indexOf(name))>=0){
 				dimMapping.forcePut(i, DimensionHelper.DimNameDisplayed[index]);
 				//dimDefMapping.forcePut(def, DimensionHelper.DimNameDisplayed[index]);
 			};
 		}
-		GalacticGregRegistry.getModContainers().stream()
-		.flatMap(modContainer -> modContainer.getDimensionList().stream())
-		.forEach(s->{
-			int index;
-			if((index=dimName.indexOf(s.getDimIdentifier()))>=0){
-				dimDefMapping.forcePut(s, DimensionHelper.DimNameDisplayed[index]);
-			}
-			
-			
-			
-			
-		});
 		
+		
+		try{
+		cahce.put(e.world.provider.dimensionId,
+		((ChunkProviderServer)e.world.getChunkProvider()).currentChunkProvider.getClass().getName());
+		}catch(Exception ee){}
+	
+	
 	}
 	
 	
 	
 	
 	 
-	 public static ModDimensionDef getDefForName(String id){
-		
-			
-			
-		return	GalacticGregRegistry.getModContainers().stream()
-			.flatMap(modContainer -> modContainer.getDimensionList().stream())
-		
-			.filter(s->{
-				 
-					return 
-					
-							s.getChunkProviderName().equals(
-									id);
-			
-			
-			
-			}
-			
-					
-					
-					)	
-			.findFirst().orElse(null)
-			
-			
-			;	
-			
-			
-			
-			
-			
-		}
 	public static String getNameForID(int id){
 		if(id==com.github.bartimaeusnek.bartworks.common.configs.ConfigHandler.ross128BID){
 			return "Ross128b";

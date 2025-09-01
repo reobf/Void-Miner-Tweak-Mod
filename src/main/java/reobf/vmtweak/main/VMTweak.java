@@ -107,9 +107,7 @@ public class VMTweak {
             )
             .map(ModDimensionDef::getDimIdentifier)
             .findFirst()
-            .orElse(null)
-
-        ;
+            .orElse(null);
 
     }
 

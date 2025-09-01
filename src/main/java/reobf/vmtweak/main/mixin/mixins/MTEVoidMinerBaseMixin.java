@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import net.minecraft.util.StatCollector;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -33,55 +34,49 @@ public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> exten
     @Shadow(remap = false)
     private float totalWeight;
 
+    @Unique
+    private int VMTweak$dim;
+
+    @Unique
+    private String VMTweak$mLastDimensionOverride = "None";
+
     public MTEVoidMinerBaseMixin(String aName) {
         super(aName);
-
     }
 
     @ModifyVariable(method = "handleExtraDrops", at = @At("HEAD"), require = 1, remap = false, argsOnly = true)
     private int handleExtraDrops(int id) {
         return VMTweak.dimMapping.inverse()
-            .getOrDefault(void_Miner_Tweak_Mod$a(), id);
+            .getOrDefault(VMTweak$a(), id);
     }
 
     @ModifyVariable(method = "handleModDimDef", at = @At("HEAD"), require = 1, remap = false, argsOnly = true)
     private int handleModDimDef(int id) {
-        return void_Miner_Tweak_Mod$dim = VMTweak.dimMapping.inverse()
-            .getOrDefault(void_Miner_Tweak_Mod$a(), id);
+        return VMTweak$dim = VMTweak.dimMapping.inverse()
+            .getOrDefault(VMTweak$a(), id);
     }
-
-    @Unique
-    private int void_Miner_Tweak_Mod$dim;
 
     @ModifyVariable(method = "handleModDimDef", at = @At("STORE"), require = 1, remap = false)
     private String handleModDimDef0(String id) {
-        return VMTweak.cache.getOrDefault(void_Miner_Tweak_Mod$dim, id);
+        return VMTweak.cache.getOrDefault(VMTweak$dim, id);
     }
 
     @Unique
-    private String void_Miner_Tweak_Mod$a() {
-
+    private String VMTweak$a() {
         return Optional.ofNullable(this.mInventory[1])
             .filter(s -> s.getItem() instanceof ItemDimensionDisplay)
             .map(ItemDimensionDisplay::getDimension)
-            .orElse("None")
-
-        ;
+            .orElse("None");
     }
-
-    @Unique
-    private String void_Miner_Tweak_Mod$mLastDimensionOverride = "None";
 
     @Inject(method = "saveNBTData", at = @At("HEAD"), require = 1, remap = false)
     public void saveNBTData(NBTTagCompound aNBT, CallbackInfo c) {
-
-        aNBT.setString("mLastDimensionOverride", this.void_Miner_Tweak_Mod$mLastDimensionOverride);
+        aNBT.setString("mLastDimensionOverride", this.VMTweak$mLastDimensionOverride);
     }
 
     @Inject(method = "loadNBTData", at = @At("HEAD"), require = 1, remap = false)
     public void loadNBTData(NBTTagCompound aNBT, CallbackInfo c) {
-
-        this.void_Miner_Tweak_Mod$mLastDimensionOverride = aNBT.getString("mLastDimensionOverride");
+        this.VMTweak$mLastDimensionOverride = aNBT.getString("mLastDimensionOverride");
     }
 
     @Inject(method = "working", at = @At("HEAD"), require = 1, remap = false)
@@ -89,37 +84,31 @@ public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> exten
         String dim = Optional.ofNullable(this.mInventory[1])
             .filter(s -> s.getItem() instanceof ItemDimensionDisplay)
             .map(ItemDimensionDisplay::getDimension)
-            .orElse("None")
+            .orElse("None");
 
-        ;
-
-        if (!Objects.equals(dim, void_Miner_Tweak_Mod$mLastDimensionOverride)) {
-
-            void_Miner_Tweak_Mod$mLastDimensionOverride = dim;
+        if (!Objects.equals(dim, VMTweak$mLastDimensionOverride)) {
+            VMTweak$mLastDimensionOverride = dim;
             totalWeight = 0;
-            // System.out.println("set "+totalWeight+" "+dim);
         }
     }
 
     @Unique
-    private String void_Miner_Tweak_Mod$get() {
+    private String VMTweak$get() {
         String ext = null;
         try {
-            Block block = ModBlocks.getBlock(void_Miner_Tweak_Mod$mLastDimensionOverride);
+            Block block = ModBlocks.getBlock(VMTweak$mLastDimensionOverride);
             ext = new ItemStack(block).getDisplayName();
         } catch (Exception ignored) {}
-
-        return "Dimension Override:" + (ext == null ? void_Miner_Tweak_Mod$mLastDimensionOverride : ext)
-
-        ;
-
+        ext = ext == null ? VMTweak$mLastDimensionOverride : ext;
+        ext = Objects.equals(ext, "None") ? "" : StatCollector.translateToLocal("gui.dimension.overwrite.description") + ext;
+        return ext;
     }
 
     @Override
     protected void drawTexts(DynamicPositionedColumn screenElements, SlotWidget inventorySlot) {
         super.drawTexts(screenElements, inventorySlot);
         screenElements.widget(
-            TextWidget.dynamicString(this::void_Miner_Tweak_Mod$get)
+            TextWidget.dynamicString(this::VMTweak$get)
                 .setSynced(true)
                 .setTextAlignment(Alignment.CenterLeft)
                 .setEnabled(true));

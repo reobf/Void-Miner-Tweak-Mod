@@ -38,7 +38,7 @@ public class VMTweak {
     }
 
     public static List<String> dimName = Arrays.asList(DimensionHelper.DimName);
-//    public static List<String> dimNameShort = Arrays.asList(DimensionHelper.DimNameDisplayed);
+    // public static List<String> dimNameShort = Arrays.asList(DimensionHelper.DimNameDisplayed);
 
     public static BiMap<Integer, String> dimMapping = HashBiMap.create();
     public static HashMap<Integer, String> cache = new HashMap<>();

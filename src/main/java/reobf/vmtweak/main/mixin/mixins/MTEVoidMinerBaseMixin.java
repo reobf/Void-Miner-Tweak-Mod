@@ -3,8 +3,6 @@ package reobf.vmtweak.main.mixin.mixins;
 import java.util.Objects;
 import java.util.Optional;
 
-import gtneioreplugin.plugin.block.ModBlocks;
-import gtneioreplugin.plugin.item.ItemDimensionDisplay;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +23,8 @@ import com.gtnewhorizons.modularui.common.widget.TextWidget;
 
 import bwcrossmod.galacticgreg.MTEVoidMinerBase;
 import gregtech.api.metatileentity.implementations.MTEEnhancedMultiBlockBase;
+import gtneioreplugin.plugin.block.ModBlocks;
+import gtneioreplugin.plugin.item.ItemDimensionDisplay;
 import reobf.vmtweak.main.VMTweak;
 
 @Mixin(MTEVoidMinerBase.class)

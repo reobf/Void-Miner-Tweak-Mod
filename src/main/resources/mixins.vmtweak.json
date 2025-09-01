@@ -2,11 +2,13 @@
   "required": true,
   "minVersion": "0.8.5-GTNH",
   "package": "reobf.vmtweak.main.mixin.mixins",
-  "plugin": "reobf.vmtweak.main.mixin.MixinPlugin", 
+  "plugin": "reobf.vmtweak.main.mixin.MixinPlugin",
   "refmap": "mixins.vmtweak.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
+  "mixins": [
+    "MTEVoidMinerBaseMixin"
+  ],
   "client": [],
   "server": []
 }

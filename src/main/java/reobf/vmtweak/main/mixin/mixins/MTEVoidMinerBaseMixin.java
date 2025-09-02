@@ -63,30 +63,29 @@ public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> exten
 
         // 判断能否覆写维度id
         VMTweak$warning = "";
+        int dimId = VMTweak.dimDirectMap.inverse()
+            .getOrDefault(VMTweak$checkNEIOreBlockDim(), id);
         if (VMTweak.dimDirectMap.inverse()
             .containsKey(VMTweak$checkNEIOreBlockDim())) {
-            int dimId = VMTweak.dimDirectMap.inverse()
-                .get(VMTweak$checkNEIOreBlockDim());
             if (VoidMinerUtility.dropMapsByDimId.containsKey(dimId)) {
                 this.dropMap = VoidMinerUtility.dropMapsByDimId.get(dimId);
                 return;
             }
         } else if (Objects.equals(VMTweak$mLastDimensionOverride, "EA")) {
-            int dimId = 1;
+            dimId = 1;
             if (VoidMinerUtility.dropMapsByDimId.containsKey(dimId)) {
                 this.dropMap = VoidMinerUtility.dropMapsByDimId.get(dimId);
                 return;
             }
-        } else {
-            if (VMTweak.cache.containsKey(id)) {
-                String chunkProviderName = VMTweak.cache.get(id);
-                if (VoidMinerUtility.dropMapsByChunkProviderName.containsKey(chunkProviderName)) {
-                    VoidMinerUtility.DropMap tempDropMap = VoidMinerUtility.dropMapsByChunkProviderName
-                        .get(chunkProviderName);
-                    if (tempDropMap.getTotalWeight() > 0) {
-                        this.dropMap = tempDropMap;
-                        return;
-                    }
+        }
+        if (VMTweak.cache.containsKey(dimId)) {
+            String chunkProviderName = VMTweak.cache.get(dimId);
+            if (VoidMinerUtility.dropMapsByChunkProviderName.containsKey(chunkProviderName)) {
+                VoidMinerUtility.DropMap tempDropMap = VoidMinerUtility.dropMapsByChunkProviderName
+                    .get(chunkProviderName);
+                if (tempDropMap.getTotalWeight() > 0) {
+                    this.dropMap = tempDropMap;
+                    return;
                 }
             }
         }
@@ -113,6 +112,7 @@ public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> exten
         }
 
         // 如果当前维度也没有对应的掉落辞典，则清空掉落辞典，并提示
+        VMTweak$warning = StatCollector.translateToLocal("gui.dimension.overwrite.error");
         this.dropMap = new VoidMinerUtility.DropMap();
     }
 

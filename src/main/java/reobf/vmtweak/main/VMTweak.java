@@ -5,6 +5,7 @@ import java.util.*;
 
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
@@ -103,13 +104,18 @@ public class VMTweak {
                         cache.put(dimID, "com.rwtema.extrautils.worldgen.endoftime.ChunkProviderEndOfTime");
                         continue;
                     case "thaumcraft.common.lib.world.dim.WorldProviderOuter":
-                        dimMap.put(dimID, "EndOfTime");
+                        dimMap.put(dimID, "Outer");
                         cache.put(dimID, "thaumcraft.common.lib.world.dim.ChunkProviderOuter");
                         continue;
                     case "makeo.gadomancy.common.utils.world.WorldProviderTCEldrich":
-                        dimMap.put(dimID, "EndOfTime");
+                        dimMap.put(dimID, "TCEldrich");
                         cache
                             .put(dimID, "makeo.gadomancy.common.utils.world.ChunkProviderTCOuter#ChunkProviderTCOuter");
+                        continue;
+                    case "twilightforest.world.WorldProviderTwilightForest":
+                        dimMap.put(dimID, "TwilightForest");
+                        cache
+                            .put(dimID, "twilightforest.world.ChunkProviderTwilightForest");
                         continue;
                 }
                 // 星系维度自动获取

@@ -3,14 +3,13 @@ package reobf.vmtweak.main;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -18,9 +17,11 @@ import com.google.common.collect.HashBiMap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import gtneioreplugin.util.DimensionHelper;
-import org.apache.logging.log4j.Logger;
+import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
 
 @Mod(
     modid = "vmtweak",
@@ -43,7 +44,6 @@ public class VMTweak {
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER = event.getModLog(); // 获取模组专用的Logger
     }
-
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
@@ -73,8 +73,9 @@ public class VMTweak {
             Class<?> clazz = DimensionManager.class;
             Field providersField = clazz.getDeclaredField("providers");
             providersField.setAccessible(true);
-            @SuppressWarnings("unchecked") Hashtable<Integer, Class<? extends WorldProvider>> providers =
-                (Hashtable<Integer, Class<? extends WorldProvider>>) providersField.get(null);
+            @SuppressWarnings("unchecked")
+            Hashtable<Integer, Class<? extends WorldProvider>> providers = (Hashtable<Integer, Class<? extends WorldProvider>>) providersField
+                .get(null);
             // 遍历所有WorldProvider
             for (Map.Entry<Integer, Class<? extends WorldProvider>> entry : providers.entrySet()) {
                 int dimID = entry.getKey();
@@ -101,17 +102,24 @@ public class VMTweak {
                         dimMap.put(dimID, "EndOfTime");
                         cache.put(dimID, "com.rwtema.extrautils.worldgen.endoftime.ChunkProviderEndOfTime");
                         continue;
+                    case "thaumcraft.common.lib.world.dim.WorldProviderOuter":
+                        dimMap.put(dimID, "EndOfTime");
+                        cache.put(dimID, "thaumcraft.common.lib.world.dim.ChunkProviderOuter");
+                        continue;
+                    case "makeo.gadomancy.common.utils.world.WorldProviderTCEldrich":
+                        dimMap.put(dimID, "EndOfTime");
+                        cache
+                            .put(dimID, "makeo.gadomancy.common.utils.world.ChunkProviderTCOuter#ChunkProviderTCOuter");
+                        continue;
                 }
                 // 星系维度自动获取
                 WorldProvider provider = providerClass.newInstance();
-                @SuppressWarnings("unchecked") String chunkProviderName =
-                    ((Class<? extends IChunkProvider>)providerClass
-                        .getMethod("getChunkProviderClass")
-                        .invoke(provider))
-                        .getName();
-                String dimName = ((CelestialBody)providerClass
-                        .getMethod("getCelestialBody")
-                        .invoke(provider)).getName();
+                @SuppressWarnings("unchecked")
+                String chunkProviderName = ((Class<? extends IChunkProvider>) providerClass
+                    .getMethod("getChunkProviderClass")
+                    .invoke(provider)).getName();
+                String dimName = ((CelestialBody) providerClass.getMethod("getCelestialBody")
+                    .invoke(provider)).getName();
                 // 获取chunkProviderClass的name
                 dimMap.put(dimID, dimName);
                 cache.put(dimID, chunkProviderName);
@@ -125,8 +133,7 @@ public class VMTweak {
             int dimID = dimMap.getKey();
             String dimNameMap = dimMap.getValue();
             for (int i = 0; i < dimNameTrimmed.size(); i++) {
-                if (dimNameMap.equalsIgnoreCase(dimNameTrimmed.get(i)) ||
-                    dimNameMap.equalsIgnoreCase(dimName.get(i))) {
+                if (dimNameMap.equalsIgnoreCase(dimNameTrimmed.get(i)) || dimNameMap.equalsIgnoreCase(dimName.get(i))) {
                     dimDirectMap.put(dimID, dimNameShort.get(i));
                     break;
                 }
@@ -135,9 +142,8 @@ public class VMTweak {
     }
 
     protected static int getRoss128bDimID(boolean isRoss128ba) {
-        return isRoss128ba ?
-            bartworks.common.configs.Configuration.crossModInteractions.ross128BID :
-            bartworks.common.configs.Configuration.crossModInteractions.ross128BAID;
+        return isRoss128ba ? bartworks.common.configs.Configuration.crossModInteractions.ross128BID
+            : bartworks.common.configs.Configuration.crossModInteractions.ross128BAID;
     }
 
 }

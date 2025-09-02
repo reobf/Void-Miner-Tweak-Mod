@@ -43,4 +43,7 @@ dependencies {
     runtimeOnlyNonPublishable('com.github.GTNewHorizons:Galacticraft:3.3.12-GTNH:dev')
     runtimeOnlyNonPublishable('com.github.GTNewHorizons:Hardcore-Ender-Expansion:1.12.13-GTNH:dev')
     runtimeOnlyNonPublishable('com.github.GTNewHorizons:PersonalSpace:1.0.33:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:Gadomancy:1.4.7:dev') { transitive = false }
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:ThaumicEnergistics:1.7.11-GTNH:dev') { transitive = false }
+    runtimeOnlyNonPublishable('thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev') { transitive = false }
 }

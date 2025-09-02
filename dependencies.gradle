@@ -34,10 +34,13 @@
  * For more details, see https://docs.gradle.org/8.0.1/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-    api("com.github.GTNewHorizons:NotEnoughItems:2.7.79-GTNH:dev")
-    api("com.github.GTNewHorizons:GTNHLib:0.6.39:dev")
     api("com.github.GTNewHorizons:ModularUI:1.2.20:dev")
-    api("com.github.GTNewHorizons:waila:1.8.12:dev")
-    api('com.github.GTNewHorizons:Angelica:1.0.0-beta55:api') { transitive = false }
-    api('com.github.GTNewHorizons:GT5-Unofficial:5.09.51.438:dev')
+    api('com.github.GTNewHorizons:GT5-Unofficial:5.09.51.440:dev')
+    api('com.github.GTNewHorizons:NewHorizonsCoreMod:2.7.243:dev')
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.79-GTNH:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:waila:1.8.12:dev")
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:Angelica:1.0.0-beta55:api') { transitive = false }
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:Galacticraft:3.3.12-GTNH:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:Hardcore-Ender-Expansion:1.12.13-GTNH:dev')
+    runtimeOnlyNonPublishable('com.github.GTNewHorizons:PersonalSpace:1.0.33:dev')
 }

@@ -1,1 +1,4 @@
 gui.dimension.overwrite.description=维度覆写为: 
+gui.dimension.overwrite.failed=覆写未成功。请先去一次该维度。
+gui.dimension.overwrite.error=你必须去过该维度才能生成矿物表。
+gui.dimension.overwrite.EndAsteroids=T0: 末地小行星， 但与末地掉落相同。

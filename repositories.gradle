@@ -1,16 +1,15 @@
 // Add any additional repositories for your dependencies here
 
 repositories {
-    ivy {
-        url 'https://files.vexatos.com/'
-        patternLayout {
-            artifact "[module]/[artifact]-[revision](-[classifier])(.[ext])"
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'glease'
+                url = 'https://maven.glease.net/repos/releases/'
+            }
         }
-        content {
-            includeGroup("TGregworks")
-        }
-        metadataSources {
-            artifact()
+        filter {
+            includeGroup('net.glease')
         }
     }
 }

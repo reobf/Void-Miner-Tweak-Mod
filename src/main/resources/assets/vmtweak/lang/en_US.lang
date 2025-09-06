@@ -1,0 +1,4 @@
+gui.dimension.overwrite.description=Overwrite Dimension: 
+gui.dimension.overwrite.failed=Overwrite not success. You must visit this dimension at first.
+gui.dimension.overwrite.error=You must visit the dimension at least once to enable its drops.
+gui.dimension.overwrite.EndAsteroids=T0: End Asteroids. Same ae the End.

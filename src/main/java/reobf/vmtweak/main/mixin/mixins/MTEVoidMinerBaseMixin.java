@@ -1,11 +1,13 @@
 package reobf.vmtweak.main.mixin.mixins;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.gen.ChunkProviderServer;
 
@@ -18,9 +20,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizons.modularui.api.math.Alignment;
+import com.gtnewhorizons.modularui.api.screen.ModularWindow;
+import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 import com.gtnewhorizons.modularui.common.widget.DynamicPositionedColumn;
+import com.gtnewhorizons.modularui.common.widget.FakeSyncWidget;
 import com.gtnewhorizons.modularui.common.widget.SlotWidget;
+import com.gtnewhorizons.modularui.common.widget.SyncedWidget;
 import com.gtnewhorizons.modularui.common.widget.TextWidget;
 
 import bwcrossmod.galacticgreg.MTEVoidMinerBase;
@@ -30,8 +37,9 @@ import gtneioreplugin.plugin.block.ModBlocks;
 import gtneioreplugin.plugin.item.ItemDimensionDisplay;
 import reobf.vmtweak.main.VMTweak;
 
+@SuppressWarnings("rawtypes")
 @Mixin(MTEVoidMinerBase.class)
-public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> extends MTEEnhancedMultiBlockBase<T> {
+public abstract class MTEVoidMinerBaseMixin extends MTEEnhancedMultiBlockBase {
 
     public MTEVoidMinerBaseMixin(String aName) {
         super(aName);
@@ -167,8 +175,15 @@ public abstract class MTEVoidMinerBaseMixin<T extends MTEVoidMinerBase<T>> exten
         super.drawTexts(screenElements, inventorySlot);
         screenElements.widget(
             TextWidget.dynamicString(this::VMTweak$getGuiText)
-                .setSynced(true)
+                .setSynced(false)
                 .setTextAlignment(Alignment.CenterLeft)
                 .setEnabled(true));
+    }
+    
+    @Override
+    public void addUIWidgets(ModularWindow.Builder builder, UIBuildContext buildContext) {
+    	super.addUIWidgets(builder, buildContext);
+    	builder.widget(new FakeSyncWidget.StringSyncer(()->VMTweak$mLastDimensionOverride, s->this.VMTweak$mLastDimensionOverride=s).setSynced(true, false));
+    	builder.widget(new FakeSyncWidget.StringSyncer(()->VMTweak$warning, s->this.VMTweak$warning=s).setSynced(true, false));
     }
 }

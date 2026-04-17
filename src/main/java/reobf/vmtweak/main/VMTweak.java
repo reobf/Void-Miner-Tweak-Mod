@@ -72,7 +72,7 @@ public class VMTweak {
             if (chunkProviderName.equals("com.rwtema.extrautils.worldgen.Underdark.ChunkProviderUnderdark"))
                 dimDirectMap.put(dimID, "DD");
             else {
-                List<String> dimName = Arrays.asList(DimensionHelper.DimName);
+                List<String> dimName = DimensionHelper.ALL_DIM_NAMES;
                 String name = GalacticGregRegistry.getModContainers()
                     .stream()
                     .flatMap(
@@ -94,7 +94,7 @@ public class VMTweak {
                     .orElse(null);
                 int index;
                 if ((index = dimName.indexOf(name)) >= 0) {
-                    dimDirectMap.forcePut(dimID, DimensionHelper.DimNameDisplayed[index]);
+                    dimDirectMap.forcePut(dimID, DimensionHelper.ALL_DISPLAYED_NAMES.get(index));
                 }
             }
         } catch (Exception ignored) {}

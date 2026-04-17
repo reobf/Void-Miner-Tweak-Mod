@@ -1,4 +1,5 @@
-gui.dimension.overwrite.description=Overwrite Dimension: 
-gui.dimension.overwrite.failed=Overwrite not success. You must visit this dimension at first.
-gui.dimension.overwrite.error=You must visit the dimension at least once to enable its drops.
-gui.dimension.overwrite.EndAsteroids=T0: End Asteroids. Same ae the End.
+vmtweak.gui.override.description=Dimension Override: 
+vmtweak.gui.override.failed=Override not applied. You must visit the target dimension first.
+vmtweak.gui.override.error=You must visit the dimension at least once to enable its ore drops.
+vmtweak.gui.override.end_asteroids=T0: End Asteroids (same as The End)
+vmtweak.gui.filter.no_ores=No ores available. Place a dimension block to select a target dimension.

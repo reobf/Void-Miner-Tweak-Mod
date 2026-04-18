@@ -36,6 +36,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
         ArrayList<String> ret = new ArrayList<>();
         ret.add("MTEVoidMinerBaseMixin");
+        ret.add("MTEVoidMinerBaseGuiMixin");
 
         return ret;
 

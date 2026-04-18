@@ -1,4 +1,5 @@
-gui.dimension.overwrite.description=维度覆写为: 
-gui.dimension.overwrite.failed=覆写未成功。请先去一次该维度。
-gui.dimension.overwrite.error=你必须去过该维度才能生成矿物表。
-gui.dimension.overwrite.EndAsteroids=T0: 末地小行星， 但与末地掉落相同。
+vmtweak.gui.override.description=维度覆写为: 
+vmtweak.gui.override.failed=覆写未成功，请先前往该维度一次。
+vmtweak.gui.override.error=你必须至少去过该维度一次才能获取矿物列表。
+vmtweak.gui.override.end_asteroids=T0: 末地小行星（与末地掉落相同）
+vmtweak.gui.filter.no_ores=当前无可用矿物。请放入维度方块以选择目标维度。

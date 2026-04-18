@@ -3,7 +3,7 @@ plugins {
 }
 
 // 为 runClient 和 runServer 配置不同的目录
-tasks.named<JavaExec>("runClient21") {
+tasks.named<JavaExec>("runClient25") {
     workingDir = file("run/client")
     doFirst {
         // Ensure the client working directory exists
@@ -12,7 +12,7 @@ tasks.named<JavaExec>("runClient21") {
 }
 
 // Configure runServer to use 'run/server' directory
-tasks.named<JavaExec>("runServer21") {
+tasks.named<JavaExec>("runServer25") {
     workingDir = file("run/server")
     doFirst {
         // Ensure the server working directory exists

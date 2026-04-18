@@ -7,7 +7,8 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MTEVoidMinerBaseMixin"
+    "MTEVoidMinerBaseMixin",
+    "MTEVoidMinerBaseGuiMixin"
   ],
   "client": [],
   "server": []

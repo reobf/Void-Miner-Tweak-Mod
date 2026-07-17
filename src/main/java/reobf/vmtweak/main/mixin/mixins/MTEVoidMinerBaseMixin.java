@@ -21,6 +21,7 @@ import bwcrossmod.galacticgreg.VoidMinerUtility;
 import galacticgreg.api.ModDimensionDef;
 import galacticgreg.api.enums.DimensionDef;
 import gregtech.api.metatileentity.implementations.MTEEnhancedMultiBlockBase;
+import gregtech.api.recipe.check.CheckRecipeResult;
 import gtneioreplugin.plugin.item.ItemDimensionDisplay;
 import gtneioreplugin.util.DimensionHelper;
 import reobf.vmtweak.main.IVMTweakOverride;
@@ -232,10 +233,10 @@ public abstract class MTEVoidMinerBaseMixin extends MTEEnhancedMultiBlockBase im
 
     // endregion
 
-    // region Working tick — detect slot changes
+    // region Processing tick - detect slot changes
 
-    @Inject(method = "working", at = @At("HEAD"), require = 1, remap = false)
-    private void vmtweak$onWorking(CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "checkProcessing", at = @At("HEAD"), require = 1, remap = false)
+    private void vmtweak$onCheckProcessing(CallbackInfoReturnable<CheckRecipeResult> cir) {
         String prev = vmtweak$lastDimOverride;
         vmtweak$readOverrideSlot();
         if (!Objects.equals(prev, vmtweak$lastDimOverride)) {
